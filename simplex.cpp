@@ -185,7 +185,9 @@ void Simplex::optimality() {
   cout << "[";  
   for(int j = b_col + 1; j < A[0].size(); j++) {
     if(j != b_col + 1) cout << ", ";
-    cout << A[0][j];
+    Frac aux = A[0][j];
+    aux = aux * Frac(-1ll);
+    cout << aux;
   }
   cout << "]" << endl;
 }

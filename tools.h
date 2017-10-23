@@ -3,19 +3,19 @@
 #define tools_h
 using namespace std;
 
-long long gcd(long long a, long long b);
-long long lcm(long long a, long long b);
+__int128 gcd(__int128 a, __int128 b);
+__int128 lcm(__int128 a, __int128 b);
 
 void div0();
 
 struct Frac {
   public:
-  long long a;
-  long long b;
+  __int128 a;
+  __int128 b;
 
   Frac();
 
-  Frac(long long a_, long long b_);
+  Frac(__int128 a_, __int128 b_);
 
   Frac(double a_);
   
@@ -45,6 +45,7 @@ struct Frac {
   
 };
 
+ostream &operator<<(ostream &os, const __int128 &p);
 
 ostream &operator<<(ostream &os, const Frac &p);
 

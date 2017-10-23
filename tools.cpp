@@ -2,8 +2,8 @@
 #include "tools.h"
 
 
-long long gcd(long long a, long long b) { return (b == 0) ? a : gcd(b, a % b);}
-long long lcm(long long a, long long b) { return (a / gcd(a, b)) * b;}
+__int128 gcd(__int128 a, __int128 b) { return (b == 0) ? a : gcd(b, a % b);}
+__int128 lcm(__int128 a, __int128 b) { return (a / gcd(a, b)) * b;}
 
 void div0() {
   cerr<<"Fracao invalida! Divisao por zero"<<endl;
@@ -12,8 +12,8 @@ void div0() {
 
 Frac::Frac() : a(0), b(1) {}
 
-Frac::Frac(long long a_, long long b_) : a(a_), b(b_){
-  long long g = gcd(a, b);
+Frac::Frac(__int128 a_, __int128 b_) : a(a_), b(b_){
+  __int128 g = gcd(a, b);
   a = a / g;
   b = b / g;
   if(b < 0) {
@@ -38,20 +38,20 @@ Frac::Frac(double a_) {
 Frac::Frac(long long a_) : a(a_), b(1) {}
 
 Frac Frac::treat() {
-  long long g = gcd(a, b);
+  __int128 g = gcd(a, b);
   if(g == 0) div0();
   if(b / g < 0) return Frac(-a / g, - b / g);
   return Frac(a / g, b / g);
 }
 
 Frac Frac::operator+(const struct Frac &o) const {
-  long long den = lcm(b, o.b);
+  __int128 den = lcm(b, o.b);
   if(den == 0) div0();
   return Frac(a * (den / b) + o.a * (den / o.b), den).treat();
 }
 
 Frac Frac::operator-(const struct Frac &o) const {
-  long long den = lcm(b, o.b);
+  __int128 den = lcm(b, o.b);
   if(den == 0) div0();
   return Frac(a * (den / b) - o.a * (den / o.b), den).treat();
 }
@@ -88,10 +88,33 @@ bool Frac::operator==(const long long &o) const {
   return *this == Frac(o);
 }
 
+ostream &operator<<(ostream &os, const __int128 &pp) {
+  __int128 p = pp;
+  if(p == 0) {
+    os << '0';
+  }
+  else {
+    if(p < 0) {
+      os << '-';
+      p = -p;
+    }
+    vector<int> v;
+    for(; p > 0; p = p / (__int128)10) {
+      int aux = p % 10;
+      v.push_back(aux);
+    }
+    for(int i = (int)v.size() - 1; i >= 0; i--) {
+      os << v[i];
+    }
+  }
+  os.flush();
+}
+
 ostream &operator<<(ostream &os, const Frac &p) {
   if(p.b == 1) os << p.a;  
   else os << p.a << "/" << p.b; 
 }
+
 
 void collect() {
   char c;
